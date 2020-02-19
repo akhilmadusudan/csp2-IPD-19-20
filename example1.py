@@ -5,21 +5,24 @@
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
-
+ 
 team_name = 'E1'
-strategy_name = 'Betray'
-strategy_description = 'Always betray.'
-    
+strategy_name = 'Probability'
+strategy_description = 'Based on their history, betray or collude. If they have colluded more than 75% of the time, then collude as well. Otherwise, betray.'
+  
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
-    
-    history: a string with one letter (c or b) per round that has been played with this opponent.
-    their_history: a string of the same length as history, possibly empty. 
-    The first round between these two players is my_history[0] and their_history[0]
-    The most recent round is my_history[-1] and their_history[-1]
-    
-    Returns 'c' or 'b' for collude or betray.
-    '''
-    
-    #This example player always betrays.      
-    return 'b'
+ num_collude = 0
+ num_betray = 0
+ if len(my_history) == 0:
+   return 'c'
+ else:
+   for char in their_history:
+    if char == 'c':
+      num_collude += 1
+    if char == 'b':
+       num_betray += 1
+    percent_collude = float(num_collude / len(their_history))
+   if percent_collude >= 0.75:
+     return 'c'
+   else:
+     return 'b'
