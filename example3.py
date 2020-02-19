@@ -5,26 +5,16 @@
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
-
+ 
 team_name = 'E3'
-strategy_name = 'Collude but retaliate'
-strategy_description = '''\
-Collude first round. Collude, except in a round after getting 
-a severe punishment.'''
-    
+strategy_name = 'Collude, then check.'
+strategy_description = '''Collude in the first three rounds, then check if your opponent has been betraying in their previous three turns. If yes, then betray. If no, then collude. '''
+  
 def move(my_history, their_history, my_score, their_score):
-    '''Make my move based on the history with this player.
-    
-    history: a string with one letter (c or b) per round that has been played with this opponent.
-    their_history: a string of the same length as history, possibly empty. 
-    The first round between these two players is my_history[0] and their_history[0]
-    The most recent round is my_history[-1] and their_history[-1]
-    
-    Returns 'c' or 'b' for collude or betray.
-    '''
-    if len(my_history)==0: # It's the first round; collude.
-        return 'c'
-    elif my_history[-1]=='c' and their_history[-1]=='b':
-        return 'b' # Betray if they were severely punished last time,
-    else:
-        return 'c' # otherwise collude.
+ def collude():
+   return 'c'
+ new_history = their_history[len(their_history)-3:]
+ if 'b' in new_history:
+   return 'b'
+ else:
+   collude()
